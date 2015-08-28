@@ -76,7 +76,7 @@
                     <toolbarItems>
                         <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="GCI-0w-KyM"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="tQQ-qR-yDt"/>
-                        <barButtonItem image="Help" id="KKs-8P-rTA" customClass="HelpBarButtonItem" customModule="DocumentKit">
+                        <barButtonItem title="Help" id="KKs-8P-rTA" customClass="HelpBarButtonItem" customModule="DocumentKit">
                             <connections>
                                 <outlet property="viewController" destination="LlT-LA-1wd" id="SkZ-uA-zbI"/>
                             </connections>
@@ -95,7 +95,4 @@
             <point key="canvasLocation" x="-577" y="51"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Help" width="22" height="22"/>
-    </resources>
 </document>
