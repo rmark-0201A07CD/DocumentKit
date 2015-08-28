@@ -7,13 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E7BBBEDB1B90B7A300B7CACD /* DocumentKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E7BBBEDA1B90B7A300B7CACD /* DocumentKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E7E42E211B90B8660056B1EB /* DocumentAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E42E101B90B8660056B1EB /* DocumentAppDelegate.swift */; };
+		E7E42E221B90B8660056B1EB /* DocumentBrowser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7E42E111B90B8660056B1EB /* DocumentBrowser.storyboard */; };
+		E7E42E231B90B8660056B1EB /* DocumentBrowserModelObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E42E121B90B8660056B1EB /* DocumentBrowserModelObject.swift */; };
+		E7E42E241B90B8660056B1EB /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E42E131B90B8660056B1EB /* DocumentBrowserViewController.swift */; };
+		E7E42E251B90B8660056B1EB /* DocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E42E141B90B8660056B1EB /* DocumentController.swift */; };
+		E7E42E261B90B8660056B1EB /* DocumentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E42E151B90B8660056B1EB /* DocumentCoordinator.swift */; };
+		E7E42E271B90B8660056B1EB /* DocumentHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E42E161B90B8660056B1EB /* DocumentHelpViewController.swift */; };
+		E7E42E281B90B8660056B1EB /* DocumentKitDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E42E171B90B8660056B1EB /* DocumentKitDataTypes.swift */; };
+		E7E42E2A1B90B8660056B1EB /* Help.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7E42E191B90B8660056B1EB /* Help.storyboard */; };
+		E7E42E2B1B90B8660056B1EB /* HelpBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E42E1A1B90B8660056B1EB /* HelpBarButtonItem.swift */; };
+		E7E42E2C1B90B8660056B1EB /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7E42E1B1B90B8660056B1EB /* Icons.xcassets */; };
+		E7E42E2E1B90B8660056B1EB /* RecentModelObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E42E1D1B90B8660056B1EB /* RecentModelObject.swift */; };
+		E7E42E2F1B90B8660056B1EB /* RecentsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E42E1E1B90B8660056B1EB /* RecentsCoordinator.swift */; };
+		E7E42E391B90BD020056B1EB /* DocumentEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E42E381B90BD020056B1EB /* DocumentEditor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E7BBBED71B90B7A300B7CACD /* DocumentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DocumentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E7BBBEDA1B90B7A300B7CACD /* DocumentKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentKit.h; sourceTree = "<group>"; };
 		E7BBBEDC1B90B7A300B7CACD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E7E42E101B90B8660056B1EB /* DocumentAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentAppDelegate.swift; sourceTree = "<group>"; };
+		E7E42E111B90B8660056B1EB /* DocumentBrowser.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DocumentBrowser.storyboard; sourceTree = "<group>"; };
+		E7E42E121B90B8660056B1EB /* DocumentBrowserModelObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentBrowserModelObject.swift; sourceTree = "<group>"; };
+		E7E42E131B90B8660056B1EB /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
+		E7E42E141B90B8660056B1EB /* DocumentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentController.swift; sourceTree = "<group>"; };
+		E7E42E151B90B8660056B1EB /* DocumentCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentCoordinator.swift; sourceTree = "<group>"; };
+		E7E42E161B90B8660056B1EB /* DocumentHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentHelpViewController.swift; sourceTree = "<group>"; };
+		E7E42E171B90B8660056B1EB /* DocumentKitDataTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentKitDataTypes.swift; sourceTree = "<group>"; };
+		E7E42E191B90B8660056B1EB /* Help.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Help.storyboard; sourceTree = "<group>"; };
+		E7E42E1A1B90B8660056B1EB /* HelpBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpBarButtonItem.swift; sourceTree = "<group>"; };
+		E7E42E1B1B90B8660056B1EB /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		E7E42E1D1B90B8660056B1EB /* RecentModelObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentModelObject.swift; sourceTree = "<group>"; };
+		E7E42E1E1B90B8660056B1EB /* RecentsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentsCoordinator.swift; sourceTree = "<group>"; };
+		E7E42E381B90BD020056B1EB /* DocumentEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentEditor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,10 +72,71 @@
 		E7BBBED91B90B7A300B7CACD /* DocumentKit */ = {
 			isa = PBXGroup;
 			children = (
-				E7BBBEDA1B90B7A300B7CACD /* DocumentKit.h */,
-				E7BBBEDC1B90B7A300B7CACD /* Info.plist */,
+				E7E42E171B90B8660056B1EB /* DocumentKitDataTypes.swift */,
+				E7E42E381B90BD020056B1EB /* DocumentEditor.swift */,
+				E7E42E341B90B90A0056B1EB /* Document UI */,
+				E7E42E371B90B9D20056B1EB /* Document Controller */,
+				E7E42E321B90B8BA0056B1EB /* Supporting Files */,
 			);
 			path = DocumentKit;
+			sourceTree = "<group>";
+		};
+		E7E42E321B90B8BA0056B1EB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E7E42E1B1B90B8660056B1EB /* Icons.xcassets */,
+				E7BBBEDC1B90B7A300B7CACD /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E7E42E331B90B9020056B1EB /* Help UI */ = {
+			isa = PBXGroup;
+			children = (
+				E7E42E1A1B90B8660056B1EB /* HelpBarButtonItem.swift */,
+				E7E42E161B90B8660056B1EB /* DocumentHelpViewController.swift */,
+				E7E42E191B90B8660056B1EB /* Help.storyboard */,
+			);
+			name = "Help UI";
+			sourceTree = "<group>";
+		};
+		E7E42E341B90B90A0056B1EB /* Document UI */ = {
+			isa = PBXGroup;
+			children = (
+				E7E42E101B90B8660056B1EB /* DocumentAppDelegate.swift */,
+				E7E42E131B90B8660056B1EB /* DocumentBrowserViewController.swift */,
+				E7E42E111B90B8660056B1EB /* DocumentBrowser.storyboard */,
+				E7E42E331B90B9020056B1EB /* Help UI */,
+			);
+			name = "Document UI";
+			sourceTree = "<group>";
+		};
+		E7E42E351B90B97E0056B1EB /* Recents */ = {
+			isa = PBXGroup;
+			children = (
+				E7E42E1D1B90B8660056B1EB /* RecentModelObject.swift */,
+				E7E42E1E1B90B8660056B1EB /* RecentsCoordinator.swift */,
+			);
+			name = Recents;
+			sourceTree = "<group>";
+		};
+		E7E42E361B90B9C90056B1EB /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				E7E42E121B90B8660056B1EB /* DocumentBrowserModelObject.swift */,
+				E7E42E141B90B8660056B1EB /* DocumentController.swift */,
+			);
+			name = Documents;
+			sourceTree = "<group>";
+		};
+		E7E42E371B90B9D20056B1EB /* Document Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E7E42E151B90B8660056B1EB /* DocumentCoordinator.swift */,
+				E7E42E361B90B9C90056B1EB /* Documents */,
+				E7E42E351B90B97E0056B1EB /* Recents */,
+			);
+			name = "Document Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -59,7 +146,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7BBBEDB1B90B7A300B7CACD /* DocumentKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +176,7 @@
 		E7BBBECE1B90B7A300B7CACD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Robbie Markwick";
 				TargetAttributes = {
@@ -120,6 +207,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7E42E221B90B8660056B1EB /* DocumentBrowser.storyboard in Resources */,
+				E7E42E2C1B90B8660056B1EB /* Icons.xcassets in Resources */,
+				E7E42E2A1B90B8660056B1EB /* Help.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +220,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7E42E281B90B8660056B1EB /* DocumentKitDataTypes.swift in Sources */,
+				E7E42E231B90B8660056B1EB /* DocumentBrowserModelObject.swift in Sources */,
+				E7E42E261B90B8660056B1EB /* DocumentCoordinator.swift in Sources */,
+				E7E42E2E1B90B8660056B1EB /* RecentModelObject.swift in Sources */,
+				E7E42E391B90BD020056B1EB /* DocumentEditor.swift in Sources */,
+				E7E42E251B90B8660056B1EB /* DocumentController.swift in Sources */,
+				E7E42E271B90B8660056B1EB /* DocumentHelpViewController.swift in Sources */,
+				E7E42E241B90B8660056B1EB /* DocumentBrowserViewController.swift in Sources */,
+				E7E42E2B1B90B8660056B1EB /* HelpBarButtonItem.swift in Sources */,
+				E7E42E2F1B90B8660056B1EB /* RecentsCoordinator.swift in Sources */,
+				E7E42E211B90B8660056B1EB /* DocumentAppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +329,7 @@
 		E7BBBEE01B90B7A300B7CACD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -238,12 +340,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.markwick.DocumentKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		E7BBBEE11B90B7A300B7CACD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -276,6 +380,7 @@
 				E7BBBEE11B90B7A300B7CACD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

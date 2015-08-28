@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A263e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5dQ-x4-y13">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="Qjk-RO-5yc">
+            <objects>
+                <navigationController toolbarHidden="NO" id="5dQ-x4-y13" sceneMemberID="viewController">
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="9gx-jt-aK6">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="it6-hC-g8y">
+                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                        <color key="tintColor" red="1" green="0.4979755931" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="LlT-LA-1wd" kind="relationship" relationship="rootViewController" id="DlH-EJ-ZSF"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aAH-ZD-hKp" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1480" y="51"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="jqT-fa-x9X">
+            <objects>
+                <tableViewController id="LlT-LA-1wd" customClass="DocumentBrowserViewController" customModule="DocumentKit" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="THI-Hw-gZQ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Document Cell" id="hcR-Rp-SOB" customClass="DocumentCell" customModule="DocumentKit" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="86" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hcR-Rp-SOB" id="nrz-Kf-nWb">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Text" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uOJ-MK-eDh">
+                                            <rect key="frame" x="18" y="13" width="564" height="17"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="hcR-Rp-SOB" id="ZFf-qS-Nro"/>
+                                            </connections>
+                                        </textField>
+                                    </subviews>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="uOJ-MK-eDh" secondAttribute="trailing" constant="10" id="3dm-LW-6xm"/>
+                                        <constraint firstItem="uOJ-MK-eDh" firstAttribute="centerY" secondItem="nrz-Kf-nWb" secondAttribute="centerY" id="Ub1-A1-5XT"/>
+                                        <constraint firstItem="uOJ-MK-eDh" firstAttribute="leading" secondItem="nrz-Kf-nWb" secondAttribute="leadingMargin" constant="10" id="h76-ny-iod"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <animations/>
+                                <connections>
+                                    <outlet property="documentName" destination="uOJ-MK-eDh" id="uRo-1v-fkc"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="LlT-LA-1wd" id="4it-W7-Xaq"/>
+                            <outlet property="delegate" destination="LlT-LA-1wd" id="yfp-XF-TEJ"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems>
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="GCI-0w-KyM"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="tQQ-qR-yDt"/>
+                        <barButtonItem image="Help" id="KKs-8P-rTA" customClass="HelpBarButtonItem" customModule="DocumentKit">
+                            <connections>
+                                <outlet property="viewController" destination="LlT-LA-1wd" id="SkZ-uA-zbI"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="clX-lB-RE9"/>
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="yh4-Gj-K4s"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="iiJ-Yf-I9E"/>
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Spf-xv-JWr"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="StudyCards +" id="7sH-Zs-t0M">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="nkt-Ek-PIS"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bvF-8v-zsv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-577" y="51"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Help" width="22" height="22"/>
+    </resources>
+</document>

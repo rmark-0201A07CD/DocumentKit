@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8152.3" systemVersion="15A226f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="C9J-OZ-pVn">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8124.4"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="mQu-Um-06p">
+            <objects>
+                <navigationController id="C9J-OZ-pVn" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fvb-tS-Whp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Aqj-nD-UJn" kind="relationship" relationship="rootViewController" id="x0Z-wy-Rbl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QF8-JQ-Dbf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-51" y="317"/>
+        </scene>
+        <!--Help-->
+        <scene sceneID="6hM-ZI-FTv">
+            <objects>
+                <viewController id="Aqj-nD-UJn" customClass="DocumentHelpViewController" customModule="DocumentKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <webView key="view" contentMode="scaleToFill" id="Yx6-iI-qfY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </webView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Help" id="CaH-fk-73k">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="5aZ-4U-WO4">
+                            <connections>
+                                <action selector="dismiss:" destination="Aqj-nD-UJn" id="R4f-X3-iqj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="webView" destination="Yx6-iI-qfY" id="ufP-UY-szB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cb4-Wa-eOa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="665" y="317"/>
+        </scene>
+    </scenes>
+</document>
