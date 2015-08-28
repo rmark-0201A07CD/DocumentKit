@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol DocumentEditor:class {
+@objc public protocol DocumentEditor:class {
 	func presentDocument(document:UIDocument)
 }
 
