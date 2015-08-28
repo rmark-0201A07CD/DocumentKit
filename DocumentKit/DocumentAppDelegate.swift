@@ -22,8 +22,6 @@ public class DocumentAppDelegate: UIResponder, UIApplicationDelegate {
 	/// OVERRIDE
 	public var documentSubclass:UIDocument.Type { return UIDocument.self }
 	public var browserTintColor:UIColor { return UIColor.blueColor() }
-	public var browserTitle:String { return "Documents" }
-
 	
 	/// App Delegate
 	public var window: UIWindow?
