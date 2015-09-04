@@ -105,7 +105,7 @@ class RecentsCoordinator: NSObject,RecentModelObjectDelegate {
 			guard let recent = RecentModelObject(URL: URL) else { return }
 			var animations = [DocumentBrowserAnimation]()
 			
-			if let index = self.recentModelObjects.indexOf(recent) {
+			if let index = (self.recentModelObjects.map { $0.URL.path ?? "" }).indexOf(recent.URL.path ?? "/.") {
 				self.recentModelObjects.removeAtIndex(index)
 				if index != 0 {
 					animations += [.Move(fromIndex: index, toIndex: 0)]

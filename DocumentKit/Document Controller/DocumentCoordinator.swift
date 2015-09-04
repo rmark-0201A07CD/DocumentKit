@@ -31,7 +31,11 @@ class DocumentCoordinator: NSObject {
 
 	
 	private var documents = [DocumentBrowserModelObject]()
-	var fileExtension:String = ""
+	var fileExtension:String = "" {
+		didSet {
+			metadataQuery.predicate = NSPredicate(format: "%K like '*%@'", NSMetadataItemFSNameKey,fileExtension)
+		}
+	}
 	
 	private let workerQueue: NSOperationQueue = {
 		let workerQueue = NSOperationQueue()

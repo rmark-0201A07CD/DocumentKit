@@ -87,7 +87,11 @@
                         <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Spf-xv-JWr"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="StudyCards +" id="7sH-Zs-t0M">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="nkt-Ek-PIS"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="nkt-Ek-PIS">
+                            <connections>
+                                <action selector="newDocument" destination="LlT-LA-1wd" id="Kqp-ev-KBp"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvF-8v-zsv" userLabel="First Responder" sceneMemberID="firstResponder"/>
