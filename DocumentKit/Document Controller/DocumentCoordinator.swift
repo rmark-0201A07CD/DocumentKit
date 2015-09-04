@@ -9,7 +9,7 @@
 import Foundation
 
 protocol DocumentCoordinatorDelegate:class {
-	func documentQueryResultsDidChangeWithResults(results: [ModelObject], animations: [DocumentBrowserAnimation])
+	func documentQueryResultsDidChangeWithResults(results: [DocumentBrowserModelObject], animations: [DocumentBrowserAnimation])
 }
 
 class DocumentCoordinator: NSObject {
@@ -30,7 +30,7 @@ class DocumentCoordinator: NSObject {
 	}
 
 	
-	private var documents = [ModelObject]()
+	private var documents = [DocumentBrowserModelObject]()
 	var fileExtension:String = ""
 	
 	private let workerQueue: NSOperationQueue = {
@@ -151,6 +151,7 @@ class DocumentCoordinator: NSObject {
 			queryAnimations = [.Reload]
 		}
 		previousQueryObjects = results
+		
 		
 		NSOperationQueue.mainQueue().addOperationWithBlock {
 			self.delegate?.documentQueryResultsDidChangeWithResults(queryResults, animations: queryAnimations)

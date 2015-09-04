@@ -54,12 +54,12 @@ class DocumentController: NSObject, DocumentCoordinatorDelegate,RecentsManagerDe
 	}
 	
 ///Document Coordinator
-	var documents = [ModelObject]()
+	var documents = [DocumentBrowserModelObject]()
 	private var coordinator = DocumentCoordinator()
 	var numberOfDocuments:Int {
 		return documents.count
 	}
-	func documentQueryResultsDidChangeWithResults(results: [ModelObject], animations: [DocumentBrowserAnimation]) {
+	func documentQueryResultsDidChangeWithResults(results: [DocumentBrowserModelObject], animations: [DocumentBrowserAnimation]) {
 		documents = results
 		if animations == [.Reload] {
 			delegate?.reloadData()
