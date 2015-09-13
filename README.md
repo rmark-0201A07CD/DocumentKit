@@ -15,7 +15,7 @@ Add the "DocumentKit" key to your info.plist and set it as a dictionary with the
 - "Help File": The name of the HTML file in your app bundle that displays help information
 - "Document Browser Title": The title to be displayed by the Document browser. The back button will display "Documents"
 - "Document Storyboard": The storyboard containing your document editor. The Root View Controller must implement the DocumentEditor protocol.
-- "Quick Action Recents": True if recent documents should be available as quick actions on devices that support 3D touch. False if your app sets its own quick actions
+- "Quick Action Recents": YES if recent documents should be available as quick actions on devices that support 3D touch. NO if your app sets its own quick actions
 
 
 #Subclassing DocumentAppDelegate
