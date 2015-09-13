@@ -16,6 +16,10 @@ public extension UIDocument {
 	public func save(completionHandler:((Bool)->())? = nil){
 		saveToURL(fileURL, forSaveOperation: .ForOverwriting, completionHandler:completionHandler)
 	}
+	public func saveAndClose(completionHandler:((Bool)->())? = nil){
+		save { success in self.closeWithCompletionHandler(completionHandler) }
+	}
+
 }
 
 

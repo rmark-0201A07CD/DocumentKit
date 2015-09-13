@@ -58,7 +58,6 @@ public class DocumentAppDelegate: UIResponder, UIApplicationDelegate {
 			browser.browserTitle = title
 		} catch {}
 		
-
 	}
 	
 	
@@ -67,6 +66,13 @@ public class DocumentAppDelegate: UIResponder, UIApplicationDelegate {
 		guard navController?.viewControllers[0] is DocumentBrowserViewController else { return nil }
 		navController?.popToRootViewControllerAnimated(true)
 		return navController?.viewControllers[0] as? DocumentBrowserViewController
+	}
+	
+	public func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+		guard let documentBrowser = popToMasterViewController() else { return }
+		guard let URL = shortcutItem.userInfo?["URL"] as? NSURL else {return }
+		documentBrowser.openDocumentAtURL(URL)
+		completionHandler(true)
 	}
 	
 	public func application(application: UIApplication, openURL url: NSURL, options: [String: AnyObject]) -> Bool {

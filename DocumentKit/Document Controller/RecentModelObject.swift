@@ -77,7 +77,7 @@ class RecentModelObject: NSObject, NSFilePresenter, ModelObject {
 			subtitle = aDecoder.decodeObjectOfClass(NSString.self, forKey: RecentModelObject.subtitleKey) as? String
 			
 			// Decode the bookmark into a URL.
-			guard let bookmark = aDecoder.decodeObjectOfClass(NSData.self, forKey: RecentModelObject.bookmarkKey) as? NSData else {
+			guard let bookmark = aDecoder.decodeObjectOfClass(NSData.self, forKey: RecentModelObject.bookmarkKey) else {
 				throw DocumentBrowserError.BookmarkResolveFailed
 			}
 			bookmarkData = bookmark

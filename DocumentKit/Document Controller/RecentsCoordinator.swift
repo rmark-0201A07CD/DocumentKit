@@ -6,7 +6,7 @@
 //
 //
 
-import Foundation
+import UIKit
 
 /**
 The delegate protocol implemented by the object that receives our results.
@@ -86,6 +86,22 @@ class RecentsCoordinator: NSObject,RecentModelObjectDelegate {
 			return NSKeyedArchiver.archivedDataWithRootObject(recentModelObject)
 		}
 		NSUserDefaults.standardUserDefaults().setObject(recentModels, forKey: RecentsCoordinator.recentsKey)
+		
+		do {
+			try saveHomeScreenShortcuts()
+		}catch { return }
+
+	}
+	
+	private func saveHomeScreenShortcuts() throws {
+		let plistData = try loadDocumentKitPlistData()
+		guard let shouldShowShortcuts = plistData["Home Screen Recents"] as? Bool else { throw DocumentBrowserError.InfoPlistKeysMissing }
+		guard shouldShowShortcuts else { return }
+		
+		UIApplication.sharedApplication().shortcutItems = recentModelObjects.map {
+			UIApplicationShortcutItem(type: "Open", localizedTitle: $0.displayName ?? "", localizedSubtitle: $0.subtitle, icon: nil, userInfo: ["URL":$0.URL])
+		}
+
 	}
 	
 /// Recents Managemtent

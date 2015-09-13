@@ -25,6 +25,8 @@ class DocumentBrowserViewController: UITableViewController,DocumentControllerDel
 		}
 	}
 	
+	var openedDocument:UIDocument?
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		//Set Up UI
@@ -38,6 +40,7 @@ class DocumentBrowserViewController: UITableViewController,DocumentControllerDel
 		super.viewDidAppear(animated)
 		navigationItem.title = browserTitle
 		tableView.reloadData()
+		openedDocument?.saveAndClose()
 	}
 	override func viewWillDisappear(animated: Bool) {
 		navigationItem.title = "Documents"
@@ -172,8 +175,10 @@ class DocumentBrowserViewController: UITableViewController,DocumentControllerDel
 	
 	func openDocumentAtURL(url:NSURL, handoffState:[NSObject:AnyObject]? = nil){
 		let document = documentController.openDocumentAtURL(url,handoffState: handoffState)
+		openedDocument = document
 		guard let destVC = initializeDocumentStoryboard() else { return }
 		(destVC as? DocumentEditor)?.presentDocument(document)
+		destVC.title = (document.fileURL.lastPathComponent as NSString?)?.stringByDeletingPathExtension
 		navigationController?.pushViewController(destVC, animated: true)
 	}
 	override func restoreUserActivityState(activity: NSUserActivity) {
