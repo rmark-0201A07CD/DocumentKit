@@ -95,7 +95,7 @@ class RecentsCoordinator: NSObject,RecentModelObjectDelegate {
 	
 	private func saveHomeScreenShortcuts() throws {
 		let plistData = try loadDocumentKitPlistData()
-		guard let shouldShowShortcuts = plistData["Home Screen Recents"] as? Bool else { throw DocumentBrowserError.InfoPlistKeysMissing }
+		guard let shouldShowShortcuts = plistData["Quick Action Recents"] as? Bool else { throw DocumentBrowserError.InfoPlistKeysMissing }
 		guard shouldShowShortcuts else { return }
 		
 		UIApplication.sharedApplication().shortcutItems = recentModelObjects.map {
