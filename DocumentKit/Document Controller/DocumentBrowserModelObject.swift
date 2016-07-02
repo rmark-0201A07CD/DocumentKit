@@ -18,36 +18,36 @@ class DocumentBrowserModelObject: NSObject, ModelObject {
 
 	required init(item: NSMetadataItem) {
 		
-		displayName = item.valueForAttribute(NSMetadataItemDisplayNameKey) as? String
+		displayName = item.value(forAttribute: NSMetadataItemDisplayNameKey) as? String
 		
-		if let isExternal = item.valueForAttribute(NSMetadataUbiquitousItemIsExternalDocumentKey) as? Bool,
-			containerName = item.valueForAttribute(NSMetadataUbiquitousItemContainerDisplayNameKey) as? String
+		if let isExternal = item.value(forAttribute: NSMetadataUbiquitousItemIsExternalDocumentKey) as? Bool,
+			containerName = item.value(forAttribute: NSMetadataUbiquitousItemContainerDisplayNameKey) as? String
 			where isExternal {
 				subtitle = "in \(containerName)"
 		}
 
-		URL = item.valueForAttribute(NSMetadataItemURLKey) as! NSURL
+		url = item.value(forAttribute: NSMetadataItemURLKey) as! Foundation.URL
 		
 		metadataItem = item
 	}
-	init(URL:NSURL) {
-		displayName = URL.URLByDeletingPathExtension?.lastPathComponent
-		self.URL = URL
+	init(url:URL) {
+		displayName = try! url.deletingPathExtension().lastPathComponent
+		self.url = url
 	}
 /// Properties
 	private(set) var displayName: String?
 	private(set) var subtitle: String?
-	private(set) var URL: NSURL
+	private(set) var url: URL
 	private(set) var metadataItem: NSMetadataItem?
 	
 /// Hashing and Equality
-	override func isEqual(object: AnyObject?) -> Bool {
+	override func isEqual(_ object: AnyObject?) -> Bool {
 		guard let other = object as? DocumentBrowserModelObject else { return false }
 		return other.metadataItem?.isEqual(metadataItem) ?? false
 	}
 	
 	override var hash: Int {
-		return (metadataItem ?? URL).hash
+		return (metadataItem ?? url)!.hash
 	}
 
 }

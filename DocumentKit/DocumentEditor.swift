@@ -9,15 +9,15 @@
 import UIKit
 
 @objc public protocol DocumentEditor:class {
-	func presentDocument(document:UIDocument)
+	func presentDocument(_ document:UIDocument)
 }
 
 public extension UIDocument {
-	public func save(completionHandler:((Bool)->())? = nil){
-		saveToURL(fileURL, forSaveOperation: .ForOverwriting, completionHandler:completionHandler)
+	public func save(_ completionHandler:((Bool)->())? = nil){
+		self.save(to: fileURL, for: .forOverwriting, completionHandler:completionHandler)
 	}
-	public func saveAndClose(completionHandler:((Bool)->())? = nil){
-		save { success in self.closeWithCompletionHandler(completionHandler) }
+	public func saveAndClose(_ completionHandler:((Bool)->())? = nil){
+		save { success in self.close(completionHandler: completionHandler) }
 	}
 
 }

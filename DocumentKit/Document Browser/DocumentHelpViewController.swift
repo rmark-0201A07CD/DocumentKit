@@ -15,17 +15,17 @@ class DocumentHelpViewController: UIViewController,UIWebViewDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		do {
-			guard let helpFile = try loadDocumentKitPlistData()["Help File"] as? String else { throw DocumentBrowserError.InfoPlistKeysMissing }
-			guard let contentURL = NSBundle.mainBundle().URLForResource(helpFile, withExtension: "html") else { throw DocumentBrowserError.HelpFileMissing }
-			let htmlString = try String(contentsOfURL: contentURL, encoding: NSASCIIStringEncoding)
+			guard let helpFile = try loadDocumentKitPlistData()["Help File"] as? String else { throw DocumentBrowserError.infoPlistKeysMissing }
+			guard let contentURL = Bundle.main().urlForResource(helpFile, withExtension: "html") else { throw DocumentBrowserError.helpFileMissing }
+			let htmlString = String(contentsOfURL: contentURL, encoding: String.Encoding.ascii)
 			webView?.loadHTMLString(htmlString, baseURL: contentURL)
 		} catch { }
 	}
-	func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+	func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
 		webView.loadRequest(request)
 		return true
 	}
-	@IBAction func dismiss(sender:AnyObject?){
-		dismissViewControllerAnimated(true, completion: nil)
+	@IBAction func dismiss(_ sender:AnyObject?){
+		self.dismiss(animated: true, completion: nil)
 	}
 }

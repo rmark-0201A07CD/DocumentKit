@@ -180,6 +180,9 @@
 				TargetAttributes = {
 					E7BBBED61B90B7A300B7CACD = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = UR2T3Z854C;
+						DevelopmentTeamName = "Robbie Markwick";
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -338,6 +341,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -356,6 +360,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

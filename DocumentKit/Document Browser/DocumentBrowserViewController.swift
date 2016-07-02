@@ -36,90 +36,90 @@ class DocumentBrowserViewController: UITableViewController,DocumentControllerDel
 		documentController.delegate = self
 	}
 	
-	override func viewWillAppear(animated:Bool){
+	override func viewWillAppear(_ animated:Bool){
 		super.viewDidAppear(animated)
 		navigationItem.title = browserTitle
 		tableView.reloadData()
 		openedDocument?.saveAndClose()
 	}
-	override func viewWillDisappear(animated: Bool) {
+	override func viewWillDisappear(_ animated: Bool) {
 		navigationItem.title = "Documents"
 	}
 
 	
 	/// Table View
 	
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 2
 	}
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		switch section {
 		case DocumentBrowserViewController.recentsSection: return "Recents"
 		case DocumentBrowserViewController.documentSection: return "All Documents"
 		default: return ""
 		}
 	}
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		switch section {
 		case DocumentBrowserViewController.recentsSection: return documentController.numberOfRecents
 		case DocumentBrowserViewController.documentSection: return documentController.numberOfDocuments
 		default: return 0
 		}
 	}
-	override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-		if editing && indexPath.section == DocumentBrowserViewController.recentsSection {
+	override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		if isEditing && (indexPath as NSIndexPath).section == DocumentBrowserViewController.recentsSection {
 			return 0.0
 		}
-		return super.tableView(tableView,heightForRowAtIndexPath:indexPath)
+		return super.tableView(tableView,heightForRowAt:indexPath)
 	}
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("Document Cell", forIndexPath: indexPath)
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "Document Cell", for: indexPath)
 		if let cell = cell as? DocumentCell {
 			
-			if indexPath.section == DocumentBrowserViewController.recentsSection {
-				let document = DocumentController.sharedDocumentController.recents[indexPath.item]
+			if (indexPath as NSIndexPath).section == DocumentBrowserViewController.recentsSection {
+				let document = DocumentController.sharedDocumentController.recents[(indexPath as NSIndexPath).item]
 				cell.documentName?.text = document.displayName
-			} else if indexPath.section == DocumentBrowserViewController.documentSection {
-				let document = DocumentController.sharedDocumentController.documents[indexPath.item]
+			} else if (indexPath as NSIndexPath).section == DocumentBrowserViewController.documentSection {
+				let document = DocumentController.sharedDocumentController.documents[(indexPath as NSIndexPath).item]
 				cell.documentName?.text = document.displayName
 			}
 			
-			cell.documentName?.enabled = editing && indexPath.section == DocumentBrowserViewController.documentSection
+			cell.documentName?.isEnabled = isEditing && (indexPath as NSIndexPath).section == DocumentBrowserViewController.documentSection
 			cell.documentBrowser = self
 		}
 		return cell
 	}
 	override func editButtonItem() -> UIBarButtonItem {
-		return UIBarButtonItem(title: editing ? "Done" : "Edit", style: editing ? .Done : .Plain, target: self,  action: "pressEdit:")
+		return UIBarButtonItem(title: isEditing ? "Done" : "Edit", style: isEditing ? .done : .plain, target: self,  action: #selector(DocumentBrowserViewController.pressEdit(_:)))
 	}
-	@objc func pressEdit(sender:UIBarButtonItem){
+	@objc func pressEdit(_ sender:UIBarButtonItem){
 		//Animation
-		setEditing(!editing, animated: true)
-		tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+		setEditing(!isEditing, animated: true)
+		tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
 	}
 	
-	override func setEditing(editing:Bool, animated:Bool){
+	override func setEditing(_ editing:Bool, animated:Bool){
 		super.setEditing(editing, animated:animated)
 		navigationItem.leftBarButtonItem = editButtonItem()
-		navigationItem.rightBarButtonItem?.enabled = !editing
-		for i in 0..<tableView.numberOfRowsInSection(DocumentBrowserViewController.documentSection){
-			if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow:i, inSection:DocumentBrowserViewController.documentSection)) as? DocumentCell {
-				cell.documentName?.enabled = self.editing
+		navigationItem.rightBarButtonItem?.isEnabled = !editing
+		for i in 0..<tableView.numberOfRows(inSection: DocumentBrowserViewController.documentSection){
+			if let cell = tableView.cellForRow(at: IndexPath(row:i, section:DocumentBrowserViewController.documentSection)) as? DocumentCell {
+				cell.documentName?.isEnabled = self.isEditing
 			}
 		}
 	}
-	override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-		return indexPath.section == DocumentBrowserViewController.documentSection
+	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		return (indexPath as NSIndexPath).section == DocumentBrowserViewController.documentSection
 	}
-	override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-		guard editingStyle == .Delete && indexPath.section == DocumentBrowserViewController.documentSection else { return }
-		documentController.deleteFileAtIndex(indexPath.row)
+	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+		guard editingStyle == .delete && (indexPath as NSIndexPath).section == DocumentBrowserViewController.documentSection else { return }
+		documentController.deleteFileAtIndex((indexPath as NSIndexPath).row)
 	}
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		if indexPath.section == DocumentBrowserViewController.recentsSection {
-			openDocumentAtURL(documentController.recents[indexPath.row].URL)
-		} else if indexPath.section == DocumentBrowserViewController.documentSection {
-			openDocumentAtURL(documentController.documents[indexPath.row].URL)
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if (indexPath as NSIndexPath).section == DocumentBrowserViewController.recentsSection {
+			openDocumentAtURL(documentController.recents[(indexPath as NSIndexPath).row].url as URL)
+		} else if (indexPath as NSIndexPath).section == DocumentBrowserViewController.documentSection {
+			openDocumentAtURL(documentController.documents[(indexPath as NSIndexPath).row].url as URL)
 		}
 	}
 
@@ -128,71 +128,71 @@ class DocumentBrowserViewController: UITableViewController,DocumentControllerDel
 	func reloadData() {
 		tableView.reloadData()
 	}
-	func processAnimations(animations: [DocumentBrowserAnimation]) {
+	func processAnimations(_ animations: [DocumentBrowserAnimation]) {
 		processAnimations(animations, section: DocumentBrowserViewController.documentSection)
 	}
-	func processRecentsAnimations(animations: [DocumentBrowserAnimation]) {
+	func processRecentsAnimations(_ animations: [DocumentBrowserAnimation]) {
 		processAnimations(animations, section: DocumentBrowserViewController.recentsSection)
 	}
-	private func processAnimations(animations: [DocumentBrowserAnimation], section:Int){
+	private func processAnimations(_ animations: [DocumentBrowserAnimation], section:Int){
 		tableView.beginUpdates()
-		var indexPathsNeedingReload = [NSIndexPath]()
+		var indexPathsNeedingReload = [IndexPath]()
 		for animation in animations {
 			switch animation {
-			case .Add(let row):
-				let indexPath = NSIndexPath(forRow: row, inSection: section)
-				tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-			case .Delete(let row):
-				let indexPath = NSIndexPath(forRow: row, inSection: section)
-				tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-			case .Move(let from, let to):
-				let fromIndexPath = NSIndexPath(forRow: from, inSection: section)
-				let toIndexPath = NSIndexPath(forRow: to, inSection: section)
-				tableView.moveRowAtIndexPath(fromIndexPath, toIndexPath: toIndexPath)
-			case .Update(let row):
-				indexPathsNeedingReload += [ NSIndexPath(forRow: row, inSection: section)]
-			case .Reload: break
+			case .add(let row):
+				let indexPath = IndexPath(row: row, section: section)
+				tableView.insertRows(at: [indexPath], with: .automatic)
+			case .delete(let row):
+				let indexPath = IndexPath(row: row, section: section)
+				tableView.deleteRows(at: [indexPath], with: .automatic)
+			case .move(let from, let to):
+				let fromIndexPath = IndexPath(row: from, section: section)
+				let toIndexPath = IndexPath(row: to, section: section)
+				tableView.moveRow(at: fromIndexPath, to: toIndexPath)
+			case .update(let row):
+				indexPathsNeedingReload += [ IndexPath(row: row, section: section)]
+			case .reload: break
 			}
 		}
-		tableView.reloadRowsAtIndexPaths(indexPathsNeedingReload, withRowAnimation: .Automatic)
+		tableView.reloadRows(at: indexPathsNeedingReload, with: .automatic)
 		tableView.endUpdates()
 	}
 	
 	
 /// Document Handling
 	@IBAction func newDocument(){
-		documentController.createNewDocument { self.openDocumentAtURL($0) }
+		documentController.createNewDocument { self.openDocumentAtURL($0 as URL) }
 	}
 	
 	private func initializeDocumentStoryboard() -> UIViewController? {
 		do {
 			let plistData = try loadDocumentKitPlistData()
-			guard let storyBoardName = plistData["Document Storyboard"] as? String else { throw DocumentBrowserError.InfoPlistKeysMissing }
-			let storyboard = UIStoryboard(name: storyBoardName, bundle: NSBundle.mainBundle())
+			guard let storyBoardName = plistData["Document Storyboard"] as? String else { throw DocumentBrowserError.infoPlistKeysMissing }
+			let storyboard = UIStoryboard(name: storyBoardName, bundle: Bundle.main())
 			return storyboard.instantiateInitialViewController()
 		} catch { return nil}
 	}
 	
-	func openDocumentAtURL(url:NSURL, handoffState:[NSObject:AnyObject]? = nil){
+	func openDocumentAtURL(_ url:URL, handoffState:[NSObject:AnyObject]? = nil){
 		let document = documentController.openDocumentAtURL(url,handoffState: handoffState)
 		openedDocument = document
 		guard let destVC = initializeDocumentStoryboard() else { return }
 		(destVC as? DocumentEditor)?.presentDocument(document)
-		destVC.title = (document.fileURL.lastPathComponent as NSString?)?.stringByDeletingPathExtension
+		destVC.title = (document.fileURL.lastPathComponent as NSString?)?.deletingPathExtension
 		navigationController?.pushViewController(destVC, animated: true)
 	}
-	override func restoreUserActivityState(activity: NSUserActivity) {
+	override func restoreUserActivityState(_ activity: NSUserActivity) {
 		guard let handoffState = activity.userInfo else { return }
-		guard let url = handoffState[NSUserActivityDocumentURLKey] as? NSURL  else { return }
+		guard let url = handoffState[NSUserActivityDocumentURLKey] as? URL  else { return }
 		openDocumentAtURL(url, handoffState: handoffState)
 }
-	func renameDocumentForCell(cell:DocumentCell){
-		guard let index = tableView.indexPathForCell(cell)?.item else { return }
+	func renameDocumentForCell(_ cell:DocumentCell){
+		guard let index = (tableView.indexPath(for: cell) as NSIndexPath?)?.item else { return }
 		guard let documentName = cell.documentName?.text else { return }
 		
-		let oldURL = documentController.documents[index].URL
-		let directory = oldURL.URLByDeletingLastPathComponent
-		guard let newURL = directory?.URLByAppendingPathComponent("\(documentName).flshcrdx") else { return }
+		let oldURL = documentController.documents[index].url
+		let directory = try! oldURL.deletingLastPathComponent()
+		let newURL = try! directory.appendingPathComponent("\(documentName).flshcrdx")
 		
 		documentController.moveFile(fromURL:oldURL,toURL:newURL)
 	}
@@ -204,10 +204,10 @@ class DocumentCell: UITableViewCell, UITextFieldDelegate {
 	
 	var documentBrowser:DocumentBrowserViewController?
 	
-	func textFieldDidEndEditing(textField: UITextField){
+	func textFieldDidEndEditing(_ textField: UITextField){
 		documentBrowser?.renameDocumentForCell(self)
 	}
-	func textFieldShouldReturn(textField: UITextField) -> Bool {
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textFieldDidEndEditing(textField)
 		textField.resignFirstResponder()
 		return true
