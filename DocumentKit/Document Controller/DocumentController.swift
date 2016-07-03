@@ -10,8 +10,8 @@ import UIKit
 
 protocol DocumentControllerDelegate: class {
 	func reloadData()
-	func processAnimations(_ animations:[DocumentBrowserAnimation])
-	func processRecentsAnimations(_ animations:[DocumentBrowserAnimation])
+	func animateDocuments(_ animations:[DocumentBrowserAnimation])
+	func animateRecents(_ animations:[DocumentBrowserAnimation])
 }
 
 class DocumentController: NSObject, DocumentCoordinatorDelegate,RecentsManagerDelegate {
@@ -28,13 +28,13 @@ class DocumentController: NSObject, DocumentCoordinatorDelegate,RecentsManagerDe
 	}
 	override init(){
 		super.init()
-		coordinator.delegate = self
+		documentsCoordinator.delegate = self
 		recentsCoordinator.delegate = self
 	}
 
 /// Properities
 	var fileExtension = "" {
-		didSet { coordinator.loadLocalDocuments() }
+		didSet { documentsCoordinator.loadLocalDocuments() }
 	}
 	var UIDocumentSubclass: UIDocument.Type = UIDocument.self
 
@@ -49,13 +49,13 @@ class DocumentController: NSObject, DocumentCoordinatorDelegate,RecentsManagerDe
 		if animations == [.reload] {
 			delegate?.reloadData()
 		} else {
-			delegate?.processRecentsAnimations(animations)
+			delegate?.animateRecents(animations)
 		}
 	}
 	
 ///Document Coordinator
 	var documents = [DocumentBrowserModelObject]()
-	private var coordinator = DocumentCoordinator()
+	private var documentsCoordinator = DocumentCoordinator()
 	var numberOfDocuments:Int {
 		return documents.count
 	}
@@ -64,7 +64,7 @@ class DocumentController: NSObject, DocumentCoordinatorDelegate,RecentsManagerDe
 		if animations == [.reload] {
 			delegate?.reloadData()
 		} else {
-			delegate?.processAnimations(animations)
+			delegate?.animateDocuments(animations)
 		}
 	}
 
@@ -77,7 +77,7 @@ class DocumentController: NSObject, DocumentCoordinatorDelegate,RecentsManagerDe
 		return workerQueue
 	}()
 	
-	func openDocumentAtURL(_ url:URL, handoffState:[NSObject:AnyObject]? = nil)->UIDocument {
+	func openDocument(at url:URL, handoffState:[NSObject:AnyObject]? = nil)->UIDocument {
 		let document = UIDocumentSubclass.init(fileURL:url)
 		document.open {
 			guard $0 else { return }
@@ -86,19 +86,19 @@ class DocumentController: NSObject, DocumentCoordinatorDelegate,RecentsManagerDe
 				userActivity.userInfo = handoff
 				document.restoreUserActivityState(userActivity)
 			}
-			self.recentsCoordinator.addURLToRecents(url)
+			self.recentsCoordinator.add(url: url)
 		}
 		return document
 	}
 	
 	func createNewDocument(_ completion:((URL)->())?=nil) {
 		workerQueue.addOperation {
-			let newDocURL = self.coordinator.urlForNewDocument()
+			let newDocURL = self.documentsCoordinator.urlForNewDocument()
 			let writeIntent = NSFileAccessIntent.writingIntent(with: newDocURL as URL, options: .forReplacing)
 			NSFileCoordinator().coordinate(with: [writeIntent], queue: self.workerQueue) {
 				guard $0 == nil else { return }
 				do {
-					try self.coordinator.addDocumentAtURL(writeIntent.url)
+					try self.documentsCoordinator.addDocument(at:writeIntent.url)
 					OperationQueue.main().addOperation {
 						completion?(writeIntent.url)
 					}
@@ -106,11 +106,11 @@ class DocumentController: NSObject, DocumentCoordinatorDelegate,RecentsManagerDe
 			}
 		}
 	}
-	func importDocument(_ url:URL,completion:((URL)->())?){
+	func importDocument(at url:URL,completion:((URL)->())?){
 		guard url.pathExtension == fileExtension else { return }
 		guard let fileName = url.lastPathComponent else { return }
 		workerQueue.addOperation {
-			let fromURL = url, toURL = self.coordinator.urlForNewDocument(fileName)
+			let fromURL = url, toURL = self.documentsCoordinator.urlForNewDocument(fileName)
 			self.moveFile(fromURL: fromURL, toURL: toURL, completion:completion)
 		}
 		
@@ -131,13 +131,13 @@ class DocumentController: NSObject, DocumentCoordinatorDelegate,RecentsManagerDe
 				}
 				guard $0 == nil else { return }
 				do {
-					try self.coordinator.moveFile(fromURL: movingIntent.url, toURL: replacingIntent.url)
+					try self.documentsCoordinator.moveFile(fromURL: movingIntent.url, toURL: replacingIntent.url)
 					completion?(toURL)
 				}catch{}
 			}
 		}
 	}
-	func deleteFileAtIndex(_ index:Int){
+	func deleteFile(index:Int){
 		let url = self.documents[index].url
 		workerQueue.addOperation {
 			let successfulSecurityScopedResourceAccess = url.startAccessingSecurityScopedResource()
@@ -149,7 +149,7 @@ class DocumentController: NSObject, DocumentCoordinatorDelegate,RecentsManagerDe
 				}
 				guard $0 == nil else { return }
 				do {
-					try self.coordinator.deleteFileAtURL(writingIntent.url)
+					try self.documentsCoordinator.deleteFile(at:writingIntent.url)
 				} catch {}
 			}
 		}

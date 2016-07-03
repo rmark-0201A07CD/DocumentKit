@@ -113,13 +113,13 @@ class DocumentBrowserViewController: UITableViewController,DocumentControllerDel
 	}
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 		guard editingStyle == .delete && (indexPath as NSIndexPath).section == DocumentBrowserViewController.documentSection else { return }
-		documentController.deleteFileAtIndex((indexPath as NSIndexPath).row)
+		documentController.deleteFile(index:(indexPath as NSIndexPath).row)
 	}
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if (indexPath as NSIndexPath).section == DocumentBrowserViewController.recentsSection {
-			openDocumentAtURL(documentController.recents[(indexPath as NSIndexPath).row].url as URL)
+			openDocument(at: documentController.recents[(indexPath as NSIndexPath).row].url as URL)
 		} else if (indexPath as NSIndexPath).section == DocumentBrowserViewController.documentSection {
-			openDocumentAtURL(documentController.documents[(indexPath as NSIndexPath).row].url as URL)
+			openDocument(at: documentController.documents[(indexPath as NSIndexPath).row].url as URL)
 		}
 	}
 
@@ -128,13 +128,13 @@ class DocumentBrowserViewController: UITableViewController,DocumentControllerDel
 	func reloadData() {
 		tableView.reloadData()
 	}
-	func processAnimations(_ animations: [DocumentBrowserAnimation]) {
-		processAnimations(animations, section: DocumentBrowserViewController.documentSection)
+	func animateDocuments(_ animations: [DocumentBrowserAnimation]) {
+		animate(animations, section: DocumentBrowserViewController.documentSection)
 	}
-	func processRecentsAnimations(_ animations: [DocumentBrowserAnimation]) {
-		processAnimations(animations, section: DocumentBrowserViewController.recentsSection)
+	func animateRecents(_ animations: [DocumentBrowserAnimation]) {
+		animate(animations, section: DocumentBrowserViewController.recentsSection)
 	}
-	private func processAnimations(_ animations: [DocumentBrowserAnimation], section:Int){
+	private func animate(_ animations: [DocumentBrowserAnimation], section:Int){
 		tableView.beginUpdates()
 		var indexPathsNeedingReload = [IndexPath]()
 		for animation in animations {
@@ -161,20 +161,19 @@ class DocumentBrowserViewController: UITableViewController,DocumentControllerDel
 	
 /// Document Handling
 	@IBAction func newDocument(){
-		documentController.createNewDocument { self.openDocumentAtURL($0 as URL) }
+		documentController.createNewDocument { self.openDocument(at: $0 as URL) }
 	}
 	
 	private func initializeDocumentStoryboard() -> UIViewController? {
 		do {
-			let plistData = try loadDocumentKitPlistData()
-			guard let storyBoardName = plistData["Document Storyboard"] as? String else { throw DocumentBrowserError.infoPlistKeysMissing }
+			guard let storyBoardName = DocumentAppDelegate.plistData["Document Storyboard"] as? String else { throw DocumentBrowserError.infoPlistKeysMissing }
 			let storyboard = UIStoryboard(name: storyBoardName, bundle: Bundle.main())
 			return storyboard.instantiateInitialViewController()
 		} catch { return nil}
 	}
 	
-	func openDocumentAtURL(_ url:URL, handoffState:[NSObject:AnyObject]? = nil){
-		let document = documentController.openDocumentAtURL(url,handoffState: handoffState)
+	func openDocument(at url:URL, handoffState:[NSObject:AnyObject]? = nil){
+		let document = documentController.openDocument(at: url,handoffState: handoffState)
 		openedDocument = document
 		guard let destVC = initializeDocumentStoryboard() else { return }
 		(destVC as? DocumentEditor)?.presentDocument(document)
@@ -184,9 +183,9 @@ class DocumentBrowserViewController: UITableViewController,DocumentControllerDel
 	override func restoreUserActivityState(_ activity: NSUserActivity) {
 		guard let handoffState = activity.userInfo else { return }
 		guard let url = handoffState[NSUserActivityDocumentURLKey] as? URL  else { return }
-		openDocumentAtURL(url, handoffState: handoffState)
+		openDocument(at:url, handoffState: handoffState)
 }
-	func renameDocumentForCell(_ cell:DocumentCell){
+	func renameDocument(cell:DocumentCell){
 		guard let index = (tableView.indexPath(for: cell) as NSIndexPath?)?.item else { return }
 		guard let documentName = cell.documentName?.text else { return }
 		
@@ -205,7 +204,7 @@ class DocumentCell: UITableViewCell, UITextFieldDelegate {
 	var documentBrowser:DocumentBrowserViewController?
 	
 	func textFieldDidEndEditing(_ textField: UITextField){
-		documentBrowser?.renameDocumentForCell(self)
+		documentBrowser?.renameDocument(cell: self)
 	}
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textFieldDidEndEditing(textField)

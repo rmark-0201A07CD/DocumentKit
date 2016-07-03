@@ -94,8 +94,7 @@ class RecentsCoordinator: NSObject,RecentModelObjectDelegate {
 	}
 	
 	private func saveHomeScreenShortcuts() throws {
-		let plistData = try loadDocumentKitPlistData()
-		guard let shouldShowShortcuts = plistData["Quick Action Recents"] as? Bool else { throw DocumentBrowserError.infoPlistKeysMissing }
+		guard let shouldShowShortcuts = DocumentAppDelegate.plistData["Quick Action Recents"] as? Bool else { throw DocumentBrowserError.infoPlistKeysMissing }
 		guard shouldShowShortcuts else { return }
 	/*
 		UIApplication.sharedApplication().shortcutItems = recentModelObjects.map {
@@ -106,18 +105,18 @@ class RecentsCoordinator: NSObject,RecentModelObjectDelegate {
 	}
 	
 /// Recents Managemtent
-	private func removeRecentModelObject(_ recent: RecentModelObject) {
+	private func remove(_ recent: RecentModelObject) {
 		NSFileCoordinator.removeFilePresenter(recent)
 		guard let index = recentModelObjects.index(of: recent) else { return }
 		recentModelObjects.remove(at: index)
 	}
 	private func trimRecents(_ animations:inout [DocumentBrowserAnimation]){
 		while recentModelObjects.count > RecentsCoordinator.maxRecentModelObjectCount {
-			removeRecentModelObject(self.recentModelObjects.last!)
+			remove(self.recentModelObjects.last!)
 			animations += [.delete(index: self.recentModelObjects.count - 1)]
 		}
 	}
-	func addURLToRecents(_ url: URL) {
+	func add(url: URL) {
 		workerQueue.addOperation {
 			guard let recent = RecentModelObject(url: url) else { return }
 			var animations = [DocumentBrowserAnimation]()
@@ -148,7 +147,7 @@ class RecentsCoordinator: NSObject,RecentModelObjectDelegate {
 	func recentWasDeleted(_ recent: RecentModelObject) {
 		workerQueue.addOperation {
 			guard let index = self.recentModelObjects.index(of: recent) else { return }
-			self.removeRecentModelObject(recent)
+			self.remove(recent)
 			OperationQueue.main().addOperation {
 				let animations = [DocumentBrowserAnimation.delete(index: index)]
 				self.delegate?.recentsManagerResultsDidChange(self.recentModelObjects, animations: animations)

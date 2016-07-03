@@ -15,7 +15,7 @@ class DocumentHelpViewController: UIViewController,UIWebViewDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		do {
-			guard let helpFile = try loadDocumentKitPlistData()["Help File"] as? String else { throw DocumentBrowserError.infoPlistKeysMissing }
+			guard let helpFile = DocumentAppDelegate.plistData["Help File"] as? String else { throw DocumentBrowserError.infoPlistKeysMissing }
 			guard let contentURL = Bundle.main().urlForResource(helpFile, withExtension: "html") else { throw DocumentBrowserError.helpFileMissing }
 			let htmlString = String(contentsOfURL: contentURL, encoding: String.Encoding.ascii)
 			webView?.loadHTMLString(htmlString, baseURL: contentURL)

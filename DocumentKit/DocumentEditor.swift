@@ -13,11 +13,11 @@ import UIKit
 }
 
 public extension UIDocument {
-	public func save(_ completionHandler:((Bool)->())? = nil){
-		self.save(to: fileURL, for: .forOverwriting, completionHandler:completionHandler)
+	public func save(completion:((Bool)->())? = nil){
+		self.save(to: fileURL, for: .forOverwriting, completionHandler:completion)
 	}
-	public func saveAndClose(_ completionHandler:((Bool)->())? = nil){
-		save { success in self.close(completionHandler: completionHandler) }
+	public func saveAndClose(completion: ((Bool)->())? = nil){
+		save { success in self.close(completionHandler: completion) }
 	}
 
 }

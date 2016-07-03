@@ -47,7 +47,7 @@ class DocumentBrowserModelObject: NSObject, ModelObject {
 	}
 	
 	override var hash: Int {
-		return (metadataItem ?? url)!.hash
+		return (metadataItem?.hash ?? (url as NSURL).hash)
 	}
 
 }

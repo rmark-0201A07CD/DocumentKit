@@ -9,15 +9,6 @@
 import UIKit
 import Foundation
 
-func loadDocumentKitPlistData() throws ->[String:AnyObject]{
-	guard let pListURL = Bundle.main().urlForResource("Info", withExtension: "plist") else { throw DocumentBrowserError.infoPlistLoadFailed }
-	guard let pListData = try? Data(contentsOf: pListURL) else { throw DocumentBrowserError.infoPlistLoadFailed }
-	guard let pListDictionary = try PropertyListSerialization.propertyList(from: pListData, options: PropertyListSerialization.MutabilityOptions(), format: nil) as? [String:AnyObject] else { throw DocumentBrowserError.infoPlistLoadFailed }
-	guard let documentKitDictionary = pListDictionary["DocumentKit"] as? [String:AnyObject] else { throw DocumentBrowserError.infoPlistKeysMissing }
-	return documentKitDictionary
-}
-
-
 public class DocumentAppDelegate: UIResponder, UIApplicationDelegate {
 	
 	/// OVERRIDE
@@ -26,19 +17,37 @@ public class DocumentAppDelegate: UIResponder, UIApplicationDelegate {
 	
 	/// App Delegate
 	public var window: UIWindow?
+	
+	
+	class var plistData: [String:AnyObject] {
+		struct Static {
+			static let instance = { ()->[String:AnyObject] in
+				do{
+					guard let pListURL = Bundle.main().urlForResource("Info", withExtension: "plist") else { throw DocumentBrowserError.infoPlistLoadFailed }
+					guard let pListData = try? Data(contentsOf: pListURL) else { throw DocumentBrowserError.infoPlistLoadFailed }
+					guard let pListDictionary = try PropertyListSerialization.propertyList(from: pListData, options: PropertyListSerialization.MutabilityOptions(), format: nil) as? [String:AnyObject] else { throw DocumentBrowserError.infoPlistLoadFailed }
+					guard let documentKitDictionary = pListDictionary["DocumentKit"] as? [String:AnyObject] else { throw DocumentBrowserError.infoPlistKeysMissing }
+					return documentKitDictionary
+				} catch {
+					print("DocumentKit Info.plist keys Not Found. Exiting...")
+					exit(-1)
+				}
+			}()
+		}
+		return Static.instance
+	}
 
 	
 	public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
-		setUpDocumentKit()
+		setupDocumentKit()
 		loadInitialViewController()
 		
 		return true
 	}
 	
-	private func setUpDocumentKit() {
+	private func setupDocumentKit() {
 		do{
-			let plistData = try loadDocumentKitPlistData()
-			guard let fileExtension = plistData["File Extension"] as? String else { throw DocumentBrowserError.infoPlistKeysMissing }
+			guard let fileExtension = DocumentAppDelegate.plistData["File Extension"] as? String else { throw DocumentBrowserError.infoPlistKeysMissing }
 			DocumentController.sharedDocumentController.fileExtension  = fileExtension
 			DocumentController.sharedDocumentController.UIDocumentSubclass = documentSubclass
 		}catch{
@@ -53,11 +62,9 @@ public class DocumentAppDelegate: UIResponder, UIApplicationDelegate {
 		guard let browser = (window?.rootViewController as? UINavigationController)?.viewControllers[0] as? DocumentBrowserViewController else { return }
 		
 		window?.tintColor = browserTintColor
-		do {
-			let plistData = try loadDocumentKitPlistData()
-			guard let title = plistData["Document Browser Title"] as? String else { return }
-			browser.browserTitle = title
-		} catch {}
+		
+		guard let title = DocumentAppDelegate.plistData["Document Browser Title"] as? String else { return }
+		browser.browserTitle = title
 		
 	}
 	
@@ -87,13 +94,13 @@ public class DocumentAppDelegate: UIResponder, UIApplicationDelegate {
 	public func application(_ application: UIApplication, open url: URL, options: [String: AnyObject]) -> Bool {
 		guard let documentBrowser = popToMasterViewController() else { return false }
 		
-		let openDocument:(URL)->() = { documentBrowser.openDocumentAtURL($0) }
+		let openDocument:(URL)->() = { documentBrowser.openDocument(at:$0) }
 		
 		
 		if let openInPlace = options[UIApplicationOpenURLOptionsOpenInPlaceKey] as? Bool where openInPlace{
 			openDocument(url)
 		} else {
-			DocumentController.sharedDocumentController.importDocument(url, completion: openDocument)
+			DocumentController.sharedDocumentController.importDocument(at: url, completion: openDocument)
 		}
 		return true
 	}

@@ -96,7 +96,7 @@ class DocumentCoordinator: NSObject {
 		guard let metadataQueryResults = metadataQuery.results as? [NSMetadataItem] else { return }
 		let newResults = buildModelObjectSet(metadataQueryResults)
 		
-		updateWithResults(newResults, removedResults: removedResults, addedResults: addedResults, changedResults: changedResults)
+		update(newResults: newResults, removedResults: removedResults, addedResults: addedResults, changedResults: changedResults)
 	}
 	
 	@objc func finishGathering(_ notification: Notification) {
@@ -106,7 +106,7 @@ class DocumentCoordinator: NSObject {
 		guard let metadataQueryResults = metadataQuery.results as? [NSMetadataItem] else { return }
 		let results = buildModelObjectSet(metadataQueryResults)
 		
-		updateWithResults(results, removedResults: OrderedSet(), addedResults: OrderedSet(), changedResults: OrderedSet())
+		update(newResults: results, removedResults: OrderedSet(), addedResults: OrderedSet(), changedResults: OrderedSet())
 	}
 	
 	//Processing Notifications
@@ -115,7 +115,7 @@ class DocumentCoordinator: NSObject {
 		return NSMutableOrderedSet(array: array)
 	}
 	
-	private func computeAnimationsForNewResults(_ newResults: OrderedSet, oldResults: OrderedSet, removedResults: OrderedSet, addedResults: OrderedSet, changedResults: OrderedSet) -> [DocumentBrowserAnimation] {
+	private func computeAnimations(newResults: OrderedSet, oldResults: OrderedSet, removedResults: OrderedSet, addedResults: OrderedSet, changedResults: OrderedSet) -> [DocumentBrowserAnimation] {
 		
 		let oldResultAnimations: [DocumentBrowserAnimation] = removedResults.array.flatMap { removedResult in
 			let oldIndex = oldResults.index(of: removedResult)
@@ -145,12 +145,12 @@ class DocumentCoordinator: NSObject {
 		return oldResultAnimations + changedResultAnimations + newResultAnimations + movedResultAnimations
 	}
 	
-	private func updateWithResults(_ results: OrderedSet, removedResults: OrderedSet, addedResults: OrderedSet, changedResults: OrderedSet) {
+	private func update(newResults results: OrderedSet, removedResults: OrderedSet, addedResults: OrderedSet, changedResults: OrderedSet) {
 		guard let queryResults = results.array as? [DocumentBrowserModelObject] else { return }
 		let queryAnimations: [DocumentBrowserAnimation]
 		
 		if let oldResults = previousQueryObjects {
-			queryAnimations = computeAnimationsForNewResults(results, oldResults: oldResults, removedResults: removedResults, addedResults: addedResults, changedResults: changedResults)
+			queryAnimations = computeAnimations(newResults: results, oldResults: oldResults, removedResults: removedResults, addedResults: addedResults, changedResults: changedResults)
 		} else {
 			queryAnimations = [.reload]
 		}
@@ -180,7 +180,7 @@ class DocumentCoordinator: NSObject {
 		return target
 	}
 	
-	func addDocumentAtURL(_ URL:Foundation.URL) throws {
+	func addDocument(at URL:Foundation.URL) throws {
 		try FileWrapper(directoryWithFileWrappers: [:]).write(to: URL, options: .atomic,originalContentsURL: nil)
 		try (URL as NSURL).setResourceValue(true, forKey: URLResourceKey.hasHiddenExtensionKey)
 		
@@ -208,7 +208,7 @@ class DocumentCoordinator: NSObject {
 		}
 	}
 	
-	func deleteFileAtURL(_ URL:Foundation.URL) throws{
+	func deleteFile(at URL:Foundation.URL) throws{
 		try FileManager.default().removeItem(at: URL)
 		guard isLocal else { return }
 		guard let idx = (documents.map{ $0.url }).index(of: URL) else {
